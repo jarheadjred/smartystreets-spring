@@ -23,8 +23,8 @@
 
 package com.smartystreets.spring;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SmartyStreetsAPITest {
