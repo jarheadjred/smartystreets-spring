@@ -51,7 +51,7 @@ public enum RecordType {
 
     private final String description;
 
-    private RecordType(String description) {
+    RecordType(String description) {
 
         this.description = description;
     }
