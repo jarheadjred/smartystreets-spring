@@ -1,0 +1,46 @@
+[
+  {
+    "input_index": 0,
+    "candidate_index": 0,
+    "delivery_line_1": "13936 Flay Ave N",
+    "last_line": "Hugo MN 55038-6401",
+    "delivery_point_barcode": "550386401369",
+    "components": {
+      "primary_number": "13936",
+      "street_name": "Flay",
+      "street_postdirection": "N",
+      "street_suffix": "Ave",
+      "city_name": "Hugo",
+      "state_abbreviation": "MN",
+      "zipcode": "55038",
+      "plus4_code": "6401",
+      "delivery_point": "36",
+      "delivery_point_check_digit": "9"
+    },
+    "metadata": {
+      "record_type": "S",
+      "zip_type": "Standard",
+      "county_fips": "27163",
+      "county_name": "Washington",
+      "carrier_route": "R009",
+      "congressional_district": "06",
+      "rdi": "Residential",
+      "elot_sequence": "0238",
+      "elot_sort": "A",
+      "latitude": 45.15118,
+      "longitude": -92.99295,
+      "precision": "Zip9",
+      "time_zone": "Central",
+      "utc_offset": -6,
+      "dst": true
+    },
+    "analysis": {
+      "dpv_match_code": "Y",
+      "dpv_footnotes": "AABB",
+      "dpv_cmra": "N",
+      "dpv_vacant": "N",
+      "active": "Y",
+      "footnotes": "N#"
+    }
+  }
+]

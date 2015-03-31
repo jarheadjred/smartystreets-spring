@@ -44,6 +44,9 @@ public class Components {
     @JsonProperty("street_predirection")
     private String streetPredirection;
     @Length(max=16)
+    @JsonProperty("street_postdirection")
+    private String streetPostdirection;
+    @Length(max=16)
     @JsonProperty("street_suffix")
     private String streetSuffix;
     @Length(max=32)
@@ -251,5 +254,15 @@ public class Components {
     public void setZipcode(String zipcode) {
 
         this.zipcode = zipcode;
+    }
+
+    public String getStreetPostdirection() {
+
+        return streetPostdirection;
+    }
+
+    public void setStreetPostdirection(String streetPostdirection) {
+
+        this.streetPostdirection = streetPostdirection;
     }
 }

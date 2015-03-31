@@ -23,23 +23,73 @@
 
 package com.smartystreets.spring;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.hibernate.validator.internal.util.Contracts.assertTrue;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SmartyStreetsAPIDataTransformTest {
 
 
     @Test
-    public void canTransformAddressResponse() {
+    public void canTransformAddressResponse() throws IOException {
 
-        assertTrue(true, "initial CI build testing dummy test");
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("address_response.json").getFile());
+
+        ObjectMapper om = new ObjectMapper();
+        AddressResponse addressResponse = om.readValue(file, AddressResponse[].class)[0];
+
+        assertEquals(0, addressResponse.getInputIndex());
+        assertEquals(0, addressResponse.getCandidateIndex());
+        assertEquals("13936 Flay Ave N", addressResponse.getDeliveryLine1());
+        assertEquals("Hugo MN 55038-6401", addressResponse.getLastLine());
+        assertEquals("550386401369", addressResponse.getDeliveryPointBarcode());
+
+        Components components = addressResponse.getComponents();
+        assertEquals("13936", components.getPrimaryNumber());
+        assertEquals("Flay", components.getStreetName());
+        assertEquals("N", components.getStreetPostdirection());
+        assertEquals("Ave", components.getStreetSuffix());
+        assertEquals("Hugo", components.getCityName());
+        assertEquals("MN", components.getStateAbbreviation());
+        assertEquals("55038", components.getZipcode());
+        assertEquals("6401", components.getPlus4Code());
+        assertEquals("36", components.getDeliveryPoint());
+        assertEquals("9", components.getDeliveryPointCheckDigit());
+
+        Metadata metadata = addressResponse.getMetadata();
+        assertEquals(RecordType.S, metadata.getRecordType());
+        assertEquals(ZipType.Standard, metadata.getZipType());
+        assertEquals("27163", metadata.getCountyFips());
+        assertEquals("Washington", metadata.getCountyName());
+        assertEquals("R009", metadata.getCarrierRoute());
+        assertEquals("06", metadata.getCongressionalDistrict());
+        assertEquals(ResidentialDeliveryIndicator.Residential, metadata.getRdi());
+        assertEquals("0238", metadata.getElotSequence());
+        assertEquals(ElotSortType.A, metadata.getElotSort());
+        assertEquals(BigDecimal.valueOf(45.15118D), metadata.getLocation().getLatitude());
+        assertEquals(BigDecimal.valueOf(-92.99295D), metadata.getLocation().getLongitude());
+        assertEquals("Zip9", metadata.getLocation().getPrecision());
+        assertEquals("Central", metadata.getTimeInfo().getTimeZone());
+        assertEquals(BigDecimal.valueOf(-6), metadata.getTimeInfo().getUtcOffset());
+        assertEquals(true, metadata.getTimeInfo().isDst());
+
+        Analysis analysis = addressResponse.getAnalysis();
+        assertEquals("Y", analysis.getDpvMatchCode());
+        assertEquals("AABB", analysis.getDpvFootnotes());
+        assertEquals("N", analysis.getDpvCmra());
+        assertEquals("N", analysis.getDpvVacant());
+        assertEquals("Y", analysis.getActive());
+        assertEquals("N#", analysis.getFootnotes());
     }
-
-
 
 
 }

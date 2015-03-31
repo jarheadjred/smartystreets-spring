@@ -25,9 +25,7 @@ package com.smartystreets.spring;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Analysis {
 
@@ -41,6 +39,7 @@ public class Analysis {
     private String dpvVacant;
     @JsonProperty("active")
     private String active;
+    private String footnotes;
 
     /**
      * @return The dpvMatchCode
@@ -132,4 +131,13 @@ public class Analysis {
         this.active = active;
     }
 
+    public String getFootnotes() {
+
+        return footnotes;
+    }
+
+    public void setFootnotes(String footnotes) {
+
+        this.footnotes = footnotes;
+    }
 }

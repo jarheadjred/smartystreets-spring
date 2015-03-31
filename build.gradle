@@ -1,9 +1,12 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 
-
 sourceCompatibility = 1.8
 version = '0.1.0-SNAPSHOT'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
 
 ext {
     springVersion = '4.1.6.RELEASE'

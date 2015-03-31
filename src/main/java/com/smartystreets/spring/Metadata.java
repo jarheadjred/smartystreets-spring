@@ -53,7 +53,7 @@ public class Metadata {
     @Length(max = 1)
     private String buildingDefaultIndicator;
     private ResidentialDeliveryIndicator rdi = ResidentialDeliveryIndicator.Unknown;
-    @JsonProperty("elotSequence")
+    @JsonProperty("elot_sequence")
     @Length(max = 4)
     private String elotSequence;
     @JsonProperty("elot_sort")
