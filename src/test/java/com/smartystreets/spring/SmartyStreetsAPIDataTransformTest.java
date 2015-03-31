@@ -83,7 +83,7 @@ public class SmartyStreetsAPIDataTransformTest {
         assertEquals(true, metadata.getTimeInfo().isDst());
 
         Analysis analysis = addressResponse.getAnalysis();
-        assertEquals("Y", analysis.getDpvMatchCode());
+        assertEquals(DeliveryPointValidationType.Y, analysis.getDeliveryPointValidationType());
         assertEquals("AABB", analysis.getDpvFootnotes());
         assertEquals("N", analysis.getDpvCmra());
         assertEquals("N", analysis.getDpvVacant());
