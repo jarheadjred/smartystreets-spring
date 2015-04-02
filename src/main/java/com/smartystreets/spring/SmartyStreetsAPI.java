@@ -23,6 +23,10 @@
 
 package com.smartystreets.spring;
 
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
@@ -30,14 +34,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
-
 @Service
 @Primary
 public class SmartyStreetsAPI {
 
     private static final String AUTH_ID_KEY = "auth-id";
     private static final String AUTH_TOKEN_KEY = "auth-token";
+    private static final String INCLUDE_INVALID_HEADER = "x-include-invalid";
 
     @Value("${smartystreets.api.uri}")
     String apiUri;
@@ -55,8 +58,10 @@ public class SmartyStreetsAPI {
 
         URI uri = createURI(zipCodePath);
 
-        HttpEntity<ZipCodeResponse[]> response = new RestTemplate()
-                .postForEntity(uri, new ZipCodeRequest[]{ new ZipCodeRequest(city, state, zipCode, inputId) }, ZipCodeResponse[].class);
+        RestTemplate restTemplate = new RestTemplate();
+        setIncludeInvalidHeader(restTemplate);
+
+        HttpEntity<ZipCodeResponse[]> response = restTemplate.postForEntity(uri, new ZipCodeRequest[]{ new ZipCodeRequest(city, state, zipCode, inputId) }, ZipCodeResponse[].class);
 
         return response.getBody();
     }
@@ -65,8 +70,18 @@ public class SmartyStreetsAPI {
 
         URI uri = createURI(streetAddressPath);
 
-        return new RestTemplate().postForObject(uri, new Address[]{address}, AddressResponse[].class);
+        RestTemplate restTemplate = new RestTemplate();
+        setIncludeInvalidHeader(restTemplate);
+        
+        return restTemplate.postForObject(uri, new Address[]{address}, AddressResponse[].class);
     }
+
+	private void setIncludeInvalidHeader(RestTemplate restTemplate) {
+		
+		Map<String, ? super Object> headers = new HashMap<>();
+        headers.put(INCLUDE_INVALID_HEADER, true);
+        restTemplate.headForHeaders("x-include-invalid", headers);
+	}
 
     private URI createURI(String path) {
 
@@ -77,5 +92,6 @@ public class SmartyStreetsAPI {
                 .build()
                 .toUri();
     }
+    
 
 }
