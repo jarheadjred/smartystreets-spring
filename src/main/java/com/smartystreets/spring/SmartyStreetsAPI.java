@@ -79,8 +79,8 @@ public class SmartyStreetsAPI {
 	private void setIncludeInvalidHeader(RestTemplate restTemplate) {
 		
 		Map<String, ? super Object> headers = new HashMap<>();
-        headers.put(INCLUDE_INVALID_HEADER, true);
-        restTemplate.headForHeaders("x-include-invalid", headers);
+		headers.put(INCLUDE_INVALID_HEADER, true);
+		restTemplate.headForHeaders("x-include-invalid", headers);
 	}
 
     private URI createURI(String path) {
