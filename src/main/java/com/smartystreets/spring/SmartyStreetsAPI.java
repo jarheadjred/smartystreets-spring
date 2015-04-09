@@ -23,16 +23,20 @@
 
 package com.smartystreets.spring;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.Optional.of;
 
 @Service
 @Primary
@@ -40,7 +44,8 @@ public class SmartyStreetsAPI {
 
     private static final String AUTH_ID_KEY = "auth-id";
     private static final String AUTH_TOKEN_KEY = "auth-token";
-    private static final String INCLUDE_INVALID_HEADER = "x-include-invalid";
+    private static final String INCLUDE_INVALID_HEADER = "X-Include-Invalid";
+    private static final String STANDARDIZE_ONLY_HEADER = "X-Standardize-Only";
 
     @Value("${smartystreets.api.uri}")
     String apiUri;
@@ -54,14 +59,18 @@ public class SmartyStreetsAPI {
     @Value("${smartystreets.api.authid}")
     String authId;
 
+    @Value("${smartystreets.api.includeInvalid:true}")
+    Optional<String> includeInvalidValue = of("true");
+    @Value("${smartystreets.api.includeInvalid:false}")
+    Optional<String> standardizeOnlyValue = of("false");
+
     public ZipCodeResponse[] zipCode(String zipCode, String city, String state, String inputId) {
 
         URI uri = createURI(zipCodePath);
 
-        RestTemplate restTemplate = new RestTemplate();
-        setIncludeInvalidHeader(restTemplate);
+        RestTemplate restTemplate = getRestTemplate();
 
-        HttpEntity<ZipCodeResponse[]> response = restTemplate.postForEntity(uri, new ZipCodeRequest[]{ new ZipCodeRequest(city, state, zipCode, inputId) }, ZipCodeResponse[].class);
+        HttpEntity<ZipCodeResponse[]> response = restTemplate.postForEntity(uri, new ZipCodeRequest[]{new ZipCodeRequest(city, state, zipCode, inputId)}, ZipCodeResponse[].class);
 
         return response.getBody();
     }
@@ -70,18 +79,10 @@ public class SmartyStreetsAPI {
 
         URI uri = createURI(streetAddressPath);
 
-        RestTemplate restTemplate = new RestTemplate();
-        setIncludeInvalidHeader(restTemplate);
-        
+        RestTemplate restTemplate = getRestTemplate();
+
         return restTemplate.postForObject(uri, new Address[]{address}, AddressResponse[].class);
     }
-
-	private void setIncludeInvalidHeader(RestTemplate restTemplate) {
-		
-		Map<String, ? super Object> headers = new HashMap<>();
-		headers.put(INCLUDE_INVALID_HEADER, true);
-		restTemplate.headForHeaders("x-include-invalid", headers);
-	}
 
     private URI createURI(String path) {
 
@@ -92,6 +93,16 @@ public class SmartyStreetsAPI {
                 .build()
                 .toUri();
     }
-    
 
+    RestTemplate getRestTemplate() {
+
+        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+        includeInvalidValue.ifPresent( val -> interceptors.add(new HeaderRequestInterceptor(INCLUDE_INVALID_HEADER, val)));
+        standardizeOnlyValue.ifPresent(val -> interceptors.add(new HeaderRequestInterceptor(STANDARDIZE_ONLY_HEADER, val)));
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setInterceptors(interceptors);
+
+        return restTemplate;
+    }
 }
