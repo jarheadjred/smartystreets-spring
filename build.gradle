@@ -9,7 +9,7 @@ apply plugin: 'maven'
 import java.text.SimpleDateFormat
 
 sourceCompatibility = 1.8
-def globalVersion = new Version("0.1.1-RELEASE")
+def globalVersion = new Version("0.1.3-RELEASE")
 version = globalVersion
 status = version.status
 
@@ -56,8 +56,8 @@ artifacts {
 }
 
 bintray {
-    user =bintrayuser // hasProperty('bintrayuser') ? bintrayuser: null
-    key =bintraykey// hasProperty('bintraykey') ? bintraykey: null
+    user = project.hasProperty('bintrayuser') ? bintrayuser: null
+    key = project.hasProperty('bintraykey') ? bintraykey: null
 
     configurations = ['published', 'archives']
     dryRun = false //Whether to run this as dry-run, without deploying

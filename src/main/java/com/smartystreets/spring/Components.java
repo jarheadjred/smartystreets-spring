@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize(include= JsonSerialize.Inclusion.NON_NULL)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Components {
 
     @Length(max = 64)
@@ -37,51 +37,54 @@ public class Components {
     @Length(max = 30)
     @JsonProperty("primary_number")
     private String primaryNumber;
-    @Length(max=64)
+    @Length(max = 64)
     @JsonProperty("street_name")
     private String streetName;
-    @Length(max=16)
+    @Length(max = 16)
     @JsonProperty("street_predirection")
     private String streetPredirection;
-    @Length(max=16)
+    @Length(max = 16)
     @JsonProperty("street_postdirection")
     private String streetPostdirection;
-    @Length(max=16)
+    @Length(max = 16)
     @JsonProperty("street_suffix")
     private String streetSuffix;
-    @Length(max=32)
+    @Length(max = 32)
     @JsonProperty("secondary_number")
     private String secondaryNumber;
-    @Length(max=16)
+    @Length(max = 16)
     @JsonProperty("secondary_designator")
     private String secondaryDesignator;
-    @Length(max=32)
+    @Length(max = 32)
     @JsonProperty("extra_secondary_number")
     private String extraSecondaryNumber;
-    @Length(max=16)
+    @Length(max = 16)
     @JsonProperty("pmb_designator")
     private String pmbDesignator;
-    @Length(max=16)
+    @Length(max = 16)
     @JsonProperty("pmb_number")
     private String pmbNumber;
-    @Length(max=64)
+    @Length(max = 64)
     @JsonProperty("city_name")
     private String cityName;
-    @Length(max=64)
+    @Length(max = 64)
     @JsonProperty("default_city_name")
     private String defaultCityName;
-    @Length(max=2)
+    @Length(max = 2)
     @JsonProperty("state_abbreviation")
     private String stateAbbreviation;
-    @Length(max=5)
+    @Length(max = 64)
+    @JsonProperty("county_name")
+    private String countyName;
+    @Length(max = 5)
     private String zipcode;
-    @Length(max=4)
+    @Length(max = 4)
     @JsonProperty("plus4_code")
     private String plus4Code;
-    @Length(max=2)
+    @Length(max = 2)
     @JsonProperty("delivery_point")
     private String deliveryPoint;
-    @Length(max=1)
+    @Length(max = 1)
     @JsonProperty("delivery_point_check_digit")
     private String deliveryPointCheckDigit;
 
@@ -264,5 +267,15 @@ public class Components {
     public void setStreetPostdirection(String streetPostdirection) {
 
         this.streetPostdirection = streetPostdirection;
+    }
+
+    public String getCountyName() {
+
+        return countyName;
+    }
+
+    public void setCountyName(String countyName) {
+
+        this.countyName = countyName;
     }
 }
