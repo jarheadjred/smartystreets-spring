@@ -23,11 +23,9 @@
 
 package com.smartystreets.spring;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.stereotype.Service;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -36,10 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Optional.of;
-
-@Service
-@Primary
 public class SmartyStreetsAPI {
 
     private static final String AUTH_ID_KEY = "auth-id";
@@ -47,22 +41,15 @@ public class SmartyStreetsAPI {
     private static final String INCLUDE_INVALID_HEADER = "X-Include-Invalid";
     private static final String STANDARDIZE_ONLY_HEADER = "X-Standardize-Only";
 
-    @Value("${smartystreets.api.uri}")
-    String apiUri;
-    @Value("${smartystreets.api.path.streetaddress}")
-    String streetAddressPath;
-    @Value("${smartystreets.api.path.zipcode}")
-    String zipCodePath;
-
-    @Value("${smartystreets.api.token}")
-    String apiToken;
-    @Value("${smartystreets.api.authid}")
-    String authId;
-
-    @Value("${smartystreets.api.includeInvalid:true}")
-    Optional<String> includeInvalidValue = of("true");
-    @Value("${smartystreets.api.includeInvalid:false}")
-    Optional<String> standardizeOnlyValue = of("false");
+    private String zipCodePath;
+    private String streetAddressPath;
+    private String apiUri;
+    private String authId;
+    private String apiToken;
+    private Optional<String> includeInvalidValue = Optional.empty();
+    private Optional<String> standardizeOnlyValue = Optional.empty();
+    private int readTimeout;
+    private int connectionTimeout;
 
     public ZipCodeResponse[] zipCode(String zipCode, String city, String state, String inputId) {
 
@@ -97,12 +84,60 @@ public class SmartyStreetsAPI {
     RestTemplate getRestTemplate() {
 
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-        includeInvalidValue.ifPresent( val -> interceptors.add(new HeaderRequestInterceptor(INCLUDE_INVALID_HEADER, val)));
+        includeInvalidValue.ifPresent(val -> interceptors.add(new HeaderRequestInterceptor(INCLUDE_INVALID_HEADER, val)));
         standardizeOnlyValue.ifPresent(val -> interceptors.add(new HeaderRequestInterceptor(STANDARDIZE_ONLY_HEADER, val)));
 
-        RestTemplate restTemplate = new RestTemplate();
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setReadTimeout(readTimeout);
+        factory.setConnectTimeout(connectionTimeout);
+
+        RestTemplate restTemplate = new RestTemplate(factory);
         restTemplate.setInterceptors(interceptors);
 
         return restTemplate;
+    }
+
+    public void setZipCodePath(String zipCodePath) {
+        this.zipCodePath = zipCodePath;
+    }
+
+    public void setStreetAddressPath(String streetAddressPath) {
+        this.streetAddressPath = streetAddressPath;
+    }
+
+    public void setApiUri(String apiUri) {
+        this.apiUri = apiUri;
+    }
+
+    public void setIncludeInvalidValue(Optional<String> includeInvalidValue) {
+        this.includeInvalidValue = includeInvalidValue;
+    }
+
+    public void setStandardizeOnlyValue(Optional<String> standardizeOnlyValue) {
+        this.standardizeOnlyValue = standardizeOnlyValue;
+    }
+
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
+    }
+
+    public void setConnectionTimeout(int connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
+    }
+
+    public String getApiToken() {
+        return apiToken;
+    }
+
+    public void setApiToken(String apiToken) {
+        this.apiToken = apiToken;
+    }
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
     }
 }

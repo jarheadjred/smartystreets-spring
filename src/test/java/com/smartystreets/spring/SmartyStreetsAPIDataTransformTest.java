@@ -90,6 +90,4 @@ public class SmartyStreetsAPIDataTransformTest {
         assertEquals("Y", analysis.getActive());
         assertEquals("N#", analysis.getFootnotes());
     }
-
-
 }

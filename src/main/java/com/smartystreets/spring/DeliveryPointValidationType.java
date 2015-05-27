@@ -26,18 +26,18 @@ package com.smartystreets.spring;
 public enum DeliveryPointValidationType {
 
 	Y, /**
-		— Confirmed; entire address was DPV confirmed deliverable.
+		Confirmed; entire address was DPV confirmed deliverable.
 			(eg. 1600 Amphitheatre Pkwy Mountain View, CA)
 		*/
 	N, /** 
-		— Not Confirmed; address could not be DPV confirmed as deliverable. (only returned as part of the XML response)
+		Not Confirmed; address could not be DPV confirmed as deliverable. (only returned as part of the XML response)
 		*/
 	S, /**
-	 	— Confirmed By Dropping Secondary; address was DPV confirmed by dropping secondary info (apartment, suite, etc).
+	 	Confirmed By Dropping Secondary; address was DPV confirmed by dropping secondary info (apartment, suite, etc).
 			(eg. 62 Ea Darden Dr Apt 298 Anniston, AL)
 	 	*/
 	D, /**
-		— Confirmed - Missing Secondary Info; The address was DPV confirmed, but it is missing secondary information (apartment, suite, etc).
+		Confirmed - Missing Secondary Info; The address was DPV confirmed, but it is missing secondary information (apartment, suite, etc).
 			(eg. 122 Mast Rd Lee, NH),
 		*/
 	blank
