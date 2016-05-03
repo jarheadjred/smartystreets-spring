@@ -38,9 +38,8 @@ public class SmartyStreetsAutoConfiguration {
             api.setReadTimeout(properties.getReadTimeout());
             api.setConnectionTimeout(properties.getConnectionTimeout());
 
-            api.setApiUri(properties.getUri());
-            api.setStreetAddressPath(properties.getStreetaddress());
-            api.setZipCodePath(properties.getZipcode());
+            api.setStreetAddressUrl(properties.getStreetaddressUrl());
+            api.setZipCodeUrl(properties.getZipcodeUrl());
 
             return api;
         }

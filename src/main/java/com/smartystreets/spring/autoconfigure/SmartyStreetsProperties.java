@@ -10,9 +10,8 @@ import static java.util.Optional.of;
 public class SmartyStreetsProperties {
 
 
-    String uri = "https://api.smartystreets.com";
-    String streetaddress = "/street-address";
-    String zipcode = "/zipcode";
+    String streetaddressUrl = "https://api.smartystreets.com/street-address";
+    String zipcodeUrl = "https://us-zipcode.api.smartystreets.com/lookup";
 
     String token;
     String authid;
@@ -23,28 +22,20 @@ public class SmartyStreetsProperties {
     int readTimeout = -1;
     int connectionTimeout = -1;
 
-    public String getUri() {
-        return uri;
+    public String getStreetaddressUrl() {
+        return streetaddressUrl;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setStreetaddressUrl(String streetaddressUrl) {
+        this.streetaddressUrl = streetaddressUrl;
     }
 
-    public String getStreetaddress() {
-        return streetaddress;
+    public String getZipcodeUrl() {
+        return zipcodeUrl;
     }
 
-    public void setStreetaddress(String streetaddress) {
-        this.streetaddress = streetaddress;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setZipcodeUrl(String zipcodeUrl) {
+        this.zipcodeUrl = zipcodeUrl;
     }
 
     public String getToken() {

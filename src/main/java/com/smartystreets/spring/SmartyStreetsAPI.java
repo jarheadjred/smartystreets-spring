@@ -41,9 +41,8 @@ public class SmartyStreetsAPI {
     private static final String INCLUDE_INVALID_HEADER = "X-Include-Invalid";
     private static final String STANDARDIZE_ONLY_HEADER = "X-Standardize-Only";
 
-    private String zipCodePath;
-    private String streetAddressPath;
-    private String apiUri;
+    private String zipCodeUrl;
+    private String streetAddressUrl;
     private String authId;
     private String apiToken;
     private Optional<String> includeInvalidValue = Optional.empty();
@@ -53,7 +52,7 @@ public class SmartyStreetsAPI {
 
     public ZipCodeResponse[] zipCode(String zipCode, String city, String state, String inputId) {
 
-        URI uri = createURI(zipCodePath);
+        URI uri = createURI(zipCodeUrl);
 
         RestTemplate restTemplate = getRestTemplate();
 
@@ -64,17 +63,16 @@ public class SmartyStreetsAPI {
 
     public AddressResponse[] streetAddress(Address address) {
 
-        URI uri = createURI(streetAddressPath);
+        URI uri = createURI(streetAddressUrl);
 
         RestTemplate restTemplate = getRestTemplate();
 
         return restTemplate.postForObject(uri, new Address[]{address}, AddressResponse[].class);
     }
 
-    private URI createURI(String path) {
+    private URI createURI(String uri) {
 
-        return UriComponentsBuilder.fromUriString(apiUri)
-                .path(path)
+        return UriComponentsBuilder.fromUriString(uri)
                 .queryParam(AUTH_ID_KEY, authId)
                 .queryParam(AUTH_TOKEN_KEY, apiToken)
                 .build()
@@ -97,16 +95,12 @@ public class SmartyStreetsAPI {
         return restTemplate;
     }
 
-    public void setZipCodePath(String zipCodePath) {
-        this.zipCodePath = zipCodePath;
+    public void setZipCodeUrl(String zipCodeUrl) {
+        this.zipCodeUrl = zipCodeUrl;
     }
 
-    public void setStreetAddressPath(String streetAddressPath) {
-        this.streetAddressPath = streetAddressPath;
-    }
-
-    public void setApiUri(String apiUri) {
-        this.apiUri = apiUri;
+    public void setStreetAddressUrl(String streetAddressUrl) {
+        this.streetAddressUrl = streetAddressUrl;
     }
 
     public void setIncludeInvalidValue(Optional<String> includeInvalidValue) {
