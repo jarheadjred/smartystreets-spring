@@ -89,9 +89,9 @@ bintray {
         repo = 'roomandboard-maven'
         userOrg = 'roomandboard' //An optional organization name when the repo belongs to one of the user's orgs
         name = 'smartystreets-spring'
-        websiteUrl = 'https://github.com/jarheadjred/smartystreets-spring'
-        issueTrackerUrl = 'https://github.com/jarheadjred/smartystreets-spring/issues'
-        vcsUrl = 'https://github.com/jarheadjred/smartystreets-spring.git'
+        websiteUrl = 'https://github.com/rnbWarden/smartystreets-spring'
+        issueTrackerUrl = 'https://github.com/rnbWarden/smartystreets-spring/issues'
+        vcsUrl = 'https://github.com/rnbWarden/smartystreets-spring.git'
         licenses = ['MIT']
         labels = ['addressvalidation', 'java', 'spring']
         publicDownloadNumbers = true
