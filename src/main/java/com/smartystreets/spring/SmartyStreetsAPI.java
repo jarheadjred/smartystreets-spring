@@ -24,6 +24,7 @@
 package com.smartystreets.spring;
 
 import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -43,6 +44,7 @@ public class SmartyStreetsAPI {
 
     private String zipCodeUrl;
     private String streetAddressUrl;
+    private String statusUrl;
     private String authId;
     private String apiToken;
     private Optional<String> includeInvalidValue = Optional.empty();
@@ -53,21 +55,20 @@ public class SmartyStreetsAPI {
     public ZipCodeResponse[] zipCode(String zipCode, String city, String state, String inputId) {
 
         URI uri = createURI(zipCodeUrl);
-
-        RestTemplate restTemplate = getRestTemplate();
-
-        HttpEntity<ZipCodeResponse[]> response = restTemplate.postForEntity(uri, new ZipCodeRequest[]{new ZipCodeRequest(city, state, zipCode, inputId)}, ZipCodeResponse[].class);
-
+        HttpEntity<ZipCodeResponse[]> response = getRestTemplate().postForEntity(uri, new ZipCodeRequest[]{new ZipCodeRequest(city, state, zipCode, inputId)}, ZipCodeResponse[].class);
         return response.getBody();
     }
 
     public AddressResponse[] streetAddress(Address address) {
 
         URI uri = createURI(streetAddressUrl);
+        return getRestTemplate().postForObject(uri, new Address[]{address}, AddressResponse[].class);
+    }
 
-        RestTemplate restTemplate = getRestTemplate();
+    public ResponseEntity<String> status() {
 
-        return restTemplate.postForObject(uri, new Address[]{address}, AddressResponse[].class);
+        URI uri = createURI(statusUrl);
+        return getRestTemplate().getForEntity(uri, String.class);
     }
 
     private URI createURI(String uri) {
@@ -96,42 +97,58 @@ public class SmartyStreetsAPI {
     }
 
     public void setZipCodeUrl(String zipCodeUrl) {
+
         this.zipCodeUrl = zipCodeUrl;
     }
 
     public void setStreetAddressUrl(String streetAddressUrl) {
+
         this.streetAddressUrl = streetAddressUrl;
     }
 
+    public void setStatusUrl(String statusUrl) {
+
+        this.statusUrl = statusUrl;
+    }
+
     public void setIncludeInvalidValue(Optional<String> includeInvalidValue) {
+
         this.includeInvalidValue = includeInvalidValue;
     }
 
     public void setStandardizeOnlyValue(Optional<String> standardizeOnlyValue) {
+
         this.standardizeOnlyValue = standardizeOnlyValue;
     }
 
     public void setReadTimeout(int readTimeout) {
+
         this.readTimeout = readTimeout;
     }
 
     public void setConnectionTimeout(int connectionTimeout) {
+
         this.connectionTimeout = connectionTimeout;
     }
 
     public String getApiToken() {
+
         return apiToken;
     }
 
     public void setApiToken(String apiToken) {
+
         this.apiToken = apiToken;
     }
 
     public String getAuthId() {
+
         return authId;
     }
 
     public void setAuthId(String authId) {
+
         this.authId = authId;
     }
+
 }
