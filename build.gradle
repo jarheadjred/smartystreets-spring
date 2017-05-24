@@ -14,6 +14,7 @@ plugins {
 }
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'maven'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -22,7 +23,7 @@ import java.text.SimpleDateFormat
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def globalVersion = new Version("0.2.0-RELEASE")
+def globalVersion = new Version("0.2.1-RELEASE")
 version = globalVersion
 status = version.status
 

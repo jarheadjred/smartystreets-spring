@@ -16,41 +16,54 @@ public class SmartyStreetsHealthIndicator extends AbstractHealthIndicator {
 
     private final SmartyStreetsAPI api;
     private final boolean enableStatusResponseValidation;
-    private final String expectedStatusResponse;
+    private final String requiredStatusResponse;
 
     public SmartyStreetsHealthIndicator(SmartyStreetsAPI api, SmartyStreetsProperties properties) {
 
         this.api = api;
-        this.enableStatusResponseValidation = properties.enableStatusResponseValidation();
-        this.expectedStatusResponse = properties.getStatusResponse();
+        this.enableStatusResponseValidation = properties.isEnableStatusResponseValidation();
+        this.requiredStatusResponse = properties.getRequiredStatusResponse().trim();
     }
 
     @Override
     protected void doHealthCheck(Health.Builder builder) throws Exception {
 
         ResponseEntity<String> status = api.status();
-        if (status != null) {
-            HttpStatus statusCode = status.getStatusCode();
-            if (statusCode == HttpStatus.OK) {
-                if (enableStatusResponseValidation) {
-                    String body = status.getBody();
-                    if (expectedStatusResponse.equals(body.trim())) {
-                        builder.up();
-                    } else {
-                        LOGGER.warn(format("SmartyStreets status response: %s but expected %s", body, expectedStatusResponse));
-                        builder.down();
-//                        builder.withDetail("response", body).withDetail("expectedResponse", expectedStatusResponse);
-                    }
-                } else {
-                    builder.up();
-                }
-            } else {
-                LOGGER.warn(format("SmartyStreets status response code: %s", statusCode));
-                builder.down();
-            }
-        } else {
+        validateStatus(status, builder);
+    }
+
+    private void validateStatus(ResponseEntity<String> status, Health.Builder builder) {
+
+        if (status == null) {
             LOGGER.warn(format("SmartyStreets status response not received."));
             builder.down();
+            return;
+        }
+        validateStatusCode(status, builder);
+    }
+
+    private void validateStatusCode(ResponseEntity<String> status, Health.Builder builder) {
+
+        HttpStatus statusCode = status.getStatusCode();
+        if (statusCode != HttpStatus.OK) {
+            LOGGER.warn(format("SmartyStreets status response code: %s", statusCode));
+            builder.down();
+            return;
+        }
+        builder.up(); //potentially overwritten later
+        validateStatusResponse(status, builder);
+    }
+
+    private void validateStatusResponse(ResponseEntity<String> status, Health.Builder builder) {
+
+        if (!enableStatusResponseValidation) {
+            return;
+        }
+        String body = status.getBody().trim();
+        if (!requiredStatusResponse.equals(body)) {
+            LOGGER.warn(format("SmartyStreets status response: %s but expected %s", body, requiredStatusResponse));
+            builder.down();
+            builder.withDetail("response", body).withDetail("expectedResponse", requiredStatusResponse);
         }
     }
 }

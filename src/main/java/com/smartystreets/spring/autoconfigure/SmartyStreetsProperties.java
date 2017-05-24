@@ -10,30 +10,30 @@ import static java.util.Optional.of;
 public class SmartyStreetsProperties {
 
 
-    String streetaddressUrl = "https://api.smartystreets.com/street-address";
-    String zipcodeUrl = "https://us-zipcode.api.smartystreets.com/lookup";
-    String statusUrl = "https://us-street.api.smartystreets.com/";
+    private String streetAddressUrl = "https://api.smartystreets.com/street-address";
+    private String zipcodeUrl = "https://us-zipcode.api.smartystreets.com/lookup";
+    private String statusUrl = "https://us-street.api.smartystreets.com/";
 
-    String token;
-    String authid;
+    private String token;
+    private String authid;
 
-    Optional<String> includeinvalid = of("true");
-    Optional<String> standardizeonlyvalue = of("false");
+    private Optional<String> includeinvalid = of("true");
+    private Optional<String> standardizeonlyvalue = of("false");
 
-    int readTimeout = -1;
-    int connectionTimeout = -1;
+    private int readTimeout = -1;
+    private int connectionTimeout = -1;
 
     private boolean enableStatusResponseValidation = true;
-    private String statusResponse = "us-street-api:OK";
+    private String requiredStatusResponse = "us-street-api:OK";
 
-    public String getStreetaddressUrl() {
+    public String getStreetAddressUrl() {
 
-        return streetaddressUrl;
+        return streetAddressUrl;
     }
 
-    public void setStreetaddressUrl(String streetaddressUrl) {
+    public void setStreetAddressUrl(String streetAddressUrl) {
 
-        this.streetaddressUrl = streetaddressUrl;
+        this.streetAddressUrl = streetAddressUrl;
     }
 
     public String getZipcodeUrl() {
@@ -116,23 +116,23 @@ public class SmartyStreetsProperties {
         this.connectionTimeout = connectionTimeout;
     }
 
-    public boolean enableStatusResponseValidation() {
-
-        return enableStatusResponseValidation;
-    }
-
     public boolean isEnableStatusResponseValidation() {
 
         return enableStatusResponseValidation;
     }
 
-    public String getStatusResponse() {
+    public void setEnableStatusResponseValidation(boolean enableStatusResponseValidation) {
 
-        return statusResponse;
+        this.enableStatusResponseValidation = enableStatusResponseValidation;
     }
 
-    public void setStatusResponse(String statusResponse) {
+    public String getRequiredStatusResponse() {
 
-        this.statusResponse = statusResponse;
+        return requiredStatusResponse;
+    }
+
+    public void setRequiredStatusResponse(String requiredStatusResponse) {
+
+        this.requiredStatusResponse = requiredStatusResponse;
     }
 }
