@@ -81,8 +81,8 @@ artifacts {
 }
 
 bintray {
-    user = project.hasProperty('bintrayuser') ? bintrayuser: null
-    key = project.hasProperty('bintraykey') ? bintraykey: null
+    user = project.hasProperty('bintrayuser') ? bintrayuser: System.getenv('bintrayuser')
+    key = project.hasProperty('bintraykey') ? bintraykey: System.getenv('bintraykey')
 
     configurations = ['published', 'archives']
     dryRun = false //Whether to run this as dry-run, without deploying
