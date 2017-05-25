@@ -23,7 +23,8 @@ import java.text.SimpleDateFormat
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def globalVersion = new Version("0.2.1-RELEASE")
+//def globalVersion = new Version("0.2.2-SNAPSHOT")
+def globalVersion = new Version("0.2.2-RELEASE")
 version = globalVersion
 status = version.status
 

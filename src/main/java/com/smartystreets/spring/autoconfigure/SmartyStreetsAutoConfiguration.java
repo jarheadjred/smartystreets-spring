@@ -46,22 +46,11 @@ public class SmartyStreetsAutoConfiguration {
 
             return api;
         }
-    }
-
-    @Configuration
-    @ConditionalOnBean(SmartyStreetsAPI.class)
-    @ConditionalOnEnabledHealthIndicator("smartystreets")
-    public static class SmartyStreetsHealthIndicatorConfiguration {
-
-        @Autowired
-        protected SmartyStreetsProperties properties;
-
-        @Autowired
-        protected SmartyStreetsAPI api;
 
         @Bean
+        @ConditionalOnEnabledHealthIndicator("smartystreets")
         @ConditionalOnMissingBean(name = "smartyStreetsHealthIndicator")
-        public SmartyStreetsHealthIndicator smartyStreetsHealthIndicator() {
+        public SmartyStreetsHealthIndicator smartyStreetsHealthIndicator(SmartyStreetsAPI api, SmartyStreetsProperties properties) {
 
             return new SmartyStreetsHealthIndicator(api, properties);
         }
