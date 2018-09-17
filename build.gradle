@@ -4,8 +4,8 @@ buildscript {
         maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE'
-        classpath 'io.spring.gradle:dependency-management-plugin:1.0.1.RELEASE'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE'
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE'
     }
 }
 
@@ -23,15 +23,14 @@ import java.text.SimpleDateFormat
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-//def globalVersion = new Version("0.2.2-SNAPSHOT")
-def globalVersion = new Version("0.2.2-RELEASE")
+def globalVersion = new Version("1.0.0-RELEASE")
 version = globalVersion
 status = version.status
 
 group='com.smartystreets'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    gradleVersion = '4.9'
 }
 
 ext {
@@ -44,7 +43,8 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'io.spring.platform:platform-bom:Brussels-SR2'
+        //mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE'
+        mavenBom 'io.spring.platform:platform-bom:Cairo-SR4'
     }
 }
 
